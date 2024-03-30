@@ -10,10 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.JoinColumn; // Import the JoinColumn class
 
 @Table(name = "student")
 @Entity
@@ -24,36 +22,24 @@ public class Student {
     private Long id;
 
     @Column(unique = true)
-    private String registrationId;
-
-    @Column
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "student_subject",
-               joinColumns = @JoinColumn(name = "student_id"), // Use JoinColumn annotation
-               inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> enrolledSubjects;
 
-    @ManyToMany(mappedBy = "enrolledStudents")
+    @ManyToMany
     private List<Exam> registeredExams;
 
-    public Student(String registrationId, String name) {
-        this.registrationId = registrationId;
-        this.name = name;
+    public Student() {
     }
 
+    public Student(String name) {
+        this.name = name;
+    }
     public Long getId() {
         return id;
     }
 
-    public String getRegistrationId() {
-        return registrationId;
-    }
-
-    public void setRegistrationId(String registrationId) {
-        this.registrationId = registrationId;
-    }
     public String getName() {
         return name;
     }
@@ -92,12 +78,4 @@ public class Student {
         registeredExams.add(exam);
     }       
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", registrationId='" + registrationId + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
