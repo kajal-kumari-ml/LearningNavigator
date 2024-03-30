@@ -15,20 +15,20 @@ import jakarta.persistence.ManyToMany;
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
-    private String subjectId;
 
+    @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "enrolledSubjects")
+    @ManyToMany
     private List<Student> registeredStudents;
 
+    public Subject() {
+    }
     
-    public Subject(String subjectId, String name) {
-        this.subjectId = subjectId;
+    public Subject(String name) {
         this.name = name;
     }
     public Long getId() {
@@ -37,14 +37,6 @@ public class Subject {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
     }
 
     public String getName() {

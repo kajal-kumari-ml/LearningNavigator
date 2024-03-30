@@ -1,6 +1,5 @@
 package com.learning.navigator.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,21 +21,20 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
-    private String examId;
-
     @ManyToOne
     private Subject subject;
 
     @ManyToMany
     @JoinTable(name = "student_exam",
-               joinColumns = @JoinColumn(name = "exam_id"),
+               joinColumns = @JoinColumn(name = "id"),
                inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> enrolledStudents;
-
-    public Exam(String examId, Subject subject) {
-        this.examId = examId;
+    
+    public Exam() {
+    }
+    public Exam(Subject subject, List<Student> enrolledStudents) {
         this.subject = subject;
+        this.enrolledStudents = enrolledStudents;
     }
     public Long getId() {
         return id;
@@ -44,14 +42,6 @@ public class Exam {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getExamId() {
-        return examId;
-    }
-
-    public void setExamId(String examId) {
-        this.examId = examId;
     }
 
     public Subject getSubject() {
